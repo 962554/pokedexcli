@@ -12,6 +12,7 @@ const (
 	welcomeMessage = "Welcome to Pokedex!"
 	usageMessage   = "Usage:"
 	exitMessage    = "Closing the Pokedex... Goodbye!"
+	unknownMessage = "Unknown command"
 )
 
 func cleanInput(text string) []string {
@@ -20,40 +21,29 @@ func cleanInput(text string) []string {
 }
 
 func runRepl() {
-
 	scanner := bufio.NewScanner(os.Stdin)
-
-	var userInput string
-	commands := createCommands()
-	control = Config{
-		Next:     mapEndpoint,
-		Previous: "",
-	}
 
 	for {
 		fmt.Print(prompt)
-		if scanner.Scan() {
-			userInput = scanner.Text()
-			cleaned := cleanInput(userInput)
-			if len(cleaned) == 0 {
-				continue
-			}
-			command := cleaned[0]
-			switch command {
-			case "exit":
-				_ = commands["exit"].callback(&control)
-			case "help":
-				_ = commands["help"].callback(&control)
-			case "map":
-				_ = commands["map"].callback(&control)
-			case "mapb":
-				_ = commands["mapb"].callback(&control)
-			default:
-				fmt.Println("Unknown command")
-			}
+		scanned := scanner.Scan()
+		if !scanned {
+			return
 		}
-		if err := scanner.Err(); err != nil {
-			_ = fmt.Errorf("%w", err)
+		userInput := scanner.Text()
+		cleaned := cleanInput(userInput)
+		if len(cleaned) == 0 {
+			continue
+		}
+		word := cleaned[0]
+		commands := createCommands()
+		if command, ok := commands[word]; !ok {
+			fmt.Println(unknownMessage)
+			continue
+		} else {
+			err := command.callback(cfg)
+			if err != nil {
+				fmt.Printf("Error running command: %s", word)
+			}
 		}
 	}
 }

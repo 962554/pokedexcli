@@ -6,18 +6,18 @@ import (
 	"net/http"
 )
 
-type Config struct {
-	Next     string
-	Previous string
-}
+var (
+	MapEndpoint string = "https://pokeapi.co/api/v2/location-area/"
+)
 
 type NamedAPIResource struct {
-	Count int
-	Config
-	Results []struct {
-		Name string `json:"name,omitempty"`
-		URL  string `json:"url,omitempty"`
-	}
+	Count    int     `json:"count"`
+	Next     *string `json:"next"`
+	Previous *string `json:"previous"`
+	Results  []struct {
+		Name string `json:"name"`
+		URL  string `json:"url"`
+	} `json:"results"`
 }
 
 // GetLocationAreas returns all location-areas from PokeAPI
@@ -35,8 +35,4 @@ func GetLocationAreas(url string) (NamedAPIResource, error) {
 	}
 
 	return resource, nil
-}
-
-func ExtractConfig(resource NamedAPIResource) *Config {
-	return &resource.Config
 }

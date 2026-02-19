@@ -7,13 +7,14 @@ import (
 	"github.com/962554/pokedexcli/internal/pokeapi"
 )
 
-const (
-	mapEndpoint = "https://pokeapi.co/api/v2/location-area/"
-)
+type Config struct {
+	next     *string
+	previous *string
+}
 
-type Config = pokeapi.Config
-
-var control Config
+var cfg = &Config{
+	next: &pokeapi.MapEndpoint,
+}
 
 type cliCommand struct {
 	name        string
@@ -45,15 +46,17 @@ func usageCommand(c *Config) error {
 }
 
 func mapCommand(c *Config) error {
-	if c.Next == "" {
+	if c.next == nil {
 		fmt.Println("you're on the last page")
 		return nil
 	}
-	resource, err := pokeapi.GetLocationAreas(c.Next)
+
+	resource, err := pokeapi.GetLocationAreas(*c.next)
 	if err != nil {
 		return err
 	}
-	*c = resource.Config
+	c.next = resource.Next
+	c.previous = resource.Previous
 
 	for _, result := range resource.Results {
 		fmt.Println(result.Name, result.URL)
@@ -62,15 +65,17 @@ func mapCommand(c *Config) error {
 }
 
 func mapbCommand(c *Config) error {
-	if c.Previous == "" {
+	if c.previous == nil {
 		fmt.Println("you're on the first page")
+		c.next = &pokeapi.MapEndpoint
 		return nil
 	}
-	resource, err := pokeapi.GetLocationAreas(c.Previous)
+	resource, err := pokeapi.GetLocationAreas(*c.previous)
 	if err != nil {
 		return err
 	}
-	*c = resource.Config
+	c.next = resource.Next
+	c.previous = resource.Previous
 
 	for _, result := range resource.Results {
 		fmt.Println(result.Name, result.URL)
