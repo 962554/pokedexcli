@@ -1,3 +1,6 @@
+// Package pokeapi provides a client for interacting with the PokeAPI.
+// It handles HTTP requests to various endpoints and manages data
+// retrieval for location areas and other Pokemon-related resources.
 package pokeapi
 
 import (
@@ -12,16 +15,23 @@ import (
 
 const interval = 60 * time.Second
 
+// MapEndpoint is the default URL for the location-area resource.
 var (
-	MapEndpoint string           = "https://pokeapi.co/api/v2/location-area/"
-	cache       *pokecache.Cache = pokecache.NewCache(interval)
+	MapEndpoint = "https://pokeapi.co/api/v2/location-area/"
+	cache       = pokecache.NewCache(interval)
 )
 
+// NamedAPIResource represents a paginated response from the PokeAPI,
+// containing metadata about the total count and links to adjacent pages.
 type NamedAPIResource struct {
-	Count    int     `json:"count"`
-	Next     *string `json:"next"`
+	// Count is the total number of resources available for this request.
+	Count int `json:"count"`
+	// Next is the URL for the next page of results, if any.
+	Next *string `json:"next"`
+	// Previous is the URL for the previous page of results, if any.
 	Previous *string `json:"previous"`
-	Results  []struct {
+	// Results contains the specific resource data for the current page.
+	Results []struct {
 		Name string `json:"name"`
 		URL  string `json:"url"`
 	} `json:"results"`

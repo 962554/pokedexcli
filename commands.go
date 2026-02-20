@@ -7,6 +7,8 @@ import (
 	"github.com/962554/pokedexcli/internal/pokeapi"
 )
 
+// Config maintains the pagination state for API requests, storing the
+// URLs for the next and previous sets of results.
 type Config struct {
 	next     *string
 	previous *string

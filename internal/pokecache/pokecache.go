@@ -1,18 +1,23 @@
+// Package pokecache implements a thread-safe, in-memory cache with
+// automatic entry expiration (reaping) based on a configurable interval.
 package pokecache
 
 import (
 	"fmt"
-	_ "fmt"
 	"sync"
 	"time"
 )
 
+// Cache provides a thread-safe, in-memory storage for raw byte data
+// with automatic expiration of entries.
 type Cache struct {
 	cache    map[string]cacheEntry
 	mu       sync.Mutex
 	interval time.Duration
 }
 
+// NewCache creates a new Cache instance with a background reaping goroutine.
+// The reaper will remove entries older than the specified interval.
 func NewCache(interval time.Duration) *Cache {
 	cache := &Cache{}
 	cache.cache = make(map[string]cacheEntry)
@@ -28,6 +33,7 @@ func NewCache(interval time.Duration) *Cache {
 	return cache
 }
 
+// Add inserts a new byte slice into the cache with the current timestamp.
 func (c *Cache) Add(key string, val []byte) {
 	fmt.Println("pokecache.Add")
 	c.mu.Lock()
@@ -39,6 +45,8 @@ func (c *Cache) Add(key string, val []byte) {
 	}
 }
 
+// Get retrieves a byte slice from the cache. It returns the data and
+// a boolean indicating if the key was found.
 func (c *Cache) Get(key string) ([]byte, bool) {
 	fmt.Println("pokecache.Get")
 	c.mu.Lock()
