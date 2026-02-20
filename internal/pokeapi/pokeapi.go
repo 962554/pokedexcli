@@ -29,9 +29,9 @@ func GetLocationAreas(url string) (NamedAPIResource, error) {
 	defer res.Body.Close()
 
 	var resource NamedAPIResource
-	decoder := json.NewDecoder(res.Body)
-	if err = decoder.Decode(&resource); err != nil {
-		return NamedAPIResource{}, fmt.Errorf("decoder.Decode failed: %w", err)
+
+	if err := json.Unmarshal(data, &resource); err != nil {
+		return NamedAPIResource{}, fmt.Errorf("json.Unmarshal failed: %w", err)
 	}
 
 	return resource, nil
