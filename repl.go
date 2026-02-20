@@ -36,14 +36,14 @@ func runRepl() {
 		}
 		word := cleaned[0]
 		commands := createCommands()
-		if command, ok := commands[word]; !ok {
+		command, ok := commands[word]
+		if !ok {
 			fmt.Println(unknownMessage)
 			continue
-		} else {
-			err := command.callback(cfg)
-			if err != nil {
-				fmt.Printf("Error running command: %s", word)
-			}
+		}
+		err := command.callback(cfg)
+		if err != nil {
+			fmt.Printf("Error running command: %s", word)
 		}
 	}
 }
