@@ -29,15 +29,16 @@ type NamedAPIResource struct {
 
 // GetLocationAreas returns all location-areas from PokeAPI
 func GetLocationAreas(url string) (NamedAPIResource, error) {
-	res, err := http.Get(url)
-	if err != nil {
-		return NamedAPIResource{}, fmt.Errorf("http.Get failed: %w", err)
-	}
-	defer res.Body.Close()
-
 	var data []byte
 	data, ok := cache.Get(url)
 	if !ok {
+		res, err := http.Get(url)
+		if err != nil {
+			return NamedAPIResource{}, fmt.Errorf("http.Get failed: %w", err)
+		}
+
+		defer res.Body.Close()
+
 		data, err = io.ReadAll(res.Body)
 		if err != nil {
 			return NamedAPIResource{}, fmt.Errorf("ioutil.ReadAll failed: %w", err)
