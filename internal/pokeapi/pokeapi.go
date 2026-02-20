@@ -3,11 +3,18 @@ package pokeapi
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
+	"time"
+
+	"github.com/962554/pokedexcli/internal/pokecache"
 )
 
+const interval = 60 * time.Second
+
 var (
-	MapEndpoint string = "https://pokeapi.co/api/v2/location-area/"
+	MapEndpoint string           = "https://pokeapi.co/api/v2/location-area/"
+	cache       *pokecache.Cache = pokecache.NewCache(interval)
 )
 
 type NamedAPIResource struct {
@@ -27,6 +34,16 @@ func GetLocationAreas(url string) (NamedAPIResource, error) {
 		return NamedAPIResource{}, fmt.Errorf("http.Get failed: %w", err)
 	}
 	defer res.Body.Close()
+
+	var data []byte
+	data, ok := cache.Get(url)
+	if !ok {
+		data, err = io.ReadAll(res.Body)
+		if err != nil {
+			return NamedAPIResource{}, fmt.Errorf("ioutil.ReadAll failed: %w", err)
+		}
+		cache.Add(url, data)
+	}
 
 	var resource NamedAPIResource
 
