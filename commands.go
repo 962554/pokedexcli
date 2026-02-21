@@ -61,7 +61,7 @@ func mapCommand(c *Config) error {
 	c.previous = resource.Previous
 
 	for _, result := range resource.Results {
-		fmt.Println(result.Name, result.URL)
+		fmt.Println(result.Name)
 	}
 	return nil
 }
@@ -80,7 +80,7 @@ func mapbCommand(c *Config) error {
 	c.previous = resource.Previous
 
 	for _, result := range resource.Results {
-		fmt.Println(result.Name, result.URL)
+		fmt.Println(result.Name)
 	}
 	return nil
 }
