@@ -1,6 +1,7 @@
 pokedexcli
 repl.log
 .idea/
+json/
 
 
 # Created by https://www.toptal.com/developers/gitignore/api/go
