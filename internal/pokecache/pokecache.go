@@ -35,7 +35,7 @@ func NewCache(interval time.Duration) *Cache {
 
 // Add inserts a new byte slice into the cache with the current timestamp.
 func (c *Cache) Add(key string, val []byte) {
-	fmt.Println("pokecache.Add")
+	fmt.Println("pokecache.Add", key)
 	c.mu.Lock()
 	defer c.mu.Unlock()
 
@@ -48,7 +48,7 @@ func (c *Cache) Add(key string, val []byte) {
 // Get retrieves a byte slice from the cache. It returns the data and
 // a boolean indicating if the key was found.
 func (c *Cache) Get(key string) ([]byte, bool) {
-	fmt.Println("pokecache.Get")
+	fmt.Println("pokecache.Get", key)
 	c.mu.Lock()
 	defer c.mu.Unlock()
 
