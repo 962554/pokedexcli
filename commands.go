@@ -86,8 +86,7 @@ func mapbCommand(c *Config) error {
 }
 
 func createCommands() map[string]cliCommand {
-
-	var commands = map[string]cliCommand{}
+	commands := map[string]cliCommand{}
 
 	// register exit command
 	commands["exit"] = cliCommand{
