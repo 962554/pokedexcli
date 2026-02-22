@@ -46,16 +46,16 @@ func (c cliCommand) String() string {
 	return fmt.Sprintf("name: %s, description: %s", c.name, c.description)
 }
 
-func exitCommand(c *Config, area string) error {
-	_, _ = c, area
+func exitCommand(c *Config, arg string) error {
+	_, _ = c, arg
 
 	defer os.Exit(0)
 	fmt.Println(exitMessage)
 	return nil
 }
 
-func usageCommand(c *Config, area string) error {
-	_, _ = c, area
+func usageCommand(c *Config, arg string) error {
+	_, _ = c, arg
 	fmt.Println(welcomeMessage)
 	fmt.Println(usageMessage)
 	fmt.Println()
@@ -66,8 +66,8 @@ func usageCommand(c *Config, area string) error {
 	return nil
 }
 
-func mapCommand(c *Config, area string) error {
-	_ = area
+func mapCommand(c *Config, arg string) error {
+	_ = arg
 	if c.next == nil {
 		fmt.Println("you're on the last page")
 		return nil
@@ -86,8 +86,8 @@ func mapCommand(c *Config, area string) error {
 	return nil
 }
 
-func mapbCommand(c *Config, area string) error {
-	_ = area
+func mapbCommand(c *Config, arg string) error {
+	_ = arg
 	if c.previous == nil {
 		fmt.Println("you're on the first page")
 		c.next = &pokeapi.MapEndpoint
