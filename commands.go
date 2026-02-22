@@ -30,6 +30,14 @@ type cliCommand struct {
 	callback    func(*Config, string) error
 }
 
+func newCliCommand(name, desc string, f func(*Config, string) error) cliCommand {
+	return cliCommand{
+		name:        name,
+		description: desc,
+		callback:    f,
+	}
+}
+
 func (c cliCommand) String() string {
 	return fmt.Sprintf("name: %s, description: %s", c.name, c.description)
 }
@@ -108,42 +116,18 @@ func exploreCommand(c *Config, area string) error {
 	return nil
 }
 
-func createCommands() map[string]cliCommand {
-	commands := map[string]cliCommand{}
-
-	// register exit command
-	commands["exit"] = cliCommand{
-		name:        "exit",
-		description: "Exit the Pokedex",
-		callback:    exitCommand,
 	}
 
-	// register exit command
-	commands["help"] = cliCommand{
-		name:        "help",
-		description: "Displays a help message",
-		callback:    usageCommand,
 	}
 
-	// register map command
-	commands["map"] = cliCommand{
-		name:        "map",
-		description: "Displays next 20 location-areas",
-		callback:    mapCommand,
-	}
 
-	// register mapb command
-	commands["mapb"] = cliCommand{
-		name:        "mapb",
-		description: "Displays previous 20 location-areas",
-		callback:    mapbCommand,
-	}
+	// register commands
+	commands["exit"] = newCliCommand("exit", "Exit the Pokedex", exitCommand)
+	commands["help"] = newCliCommand("help", "Displays a help message", usageCommand)
+	commands["map"] = newCliCommand("map", "Displays next 20 location-areas", mapCommand)
+	commands["mapb"] = newCliCommand("mapb", "Displays previous 20 location-areas", mapbCommand)
+	commands["explore"] = newCliCommand("explore", "Displays a list of all Pokemon within an area.", exploreCommand)
+	commands["catch"] = newCliCommand("catch", "Catches a Pokemon and adds it to the Pokedex", catchCommand)
 
-	// register mapb command
-	commands["explore"] = cliCommand{
-		name:        "explore",
-		description: "Displays a list of all Pokemon within an area.",
-		callback:    exploreCommand,
-	}
 	return commands
 }
