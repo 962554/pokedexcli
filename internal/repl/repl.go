@@ -1,4 +1,4 @@
-package main
+package repl
 
 import (
 	"bufio"
@@ -18,7 +18,7 @@ func cleanInput(text string) []string {
 	return strings.Fields(lcText)
 }
 
-func runRepl() {
+func RunRepl() {
 	scanner := bufio.NewScanner(os.Stdin)
 
 	for {

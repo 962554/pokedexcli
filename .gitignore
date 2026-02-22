@@ -1,5 +1,6 @@
 testdata/
 pokedexcli
+!pokedexcli/
 repl.log
 .*/
 _*/

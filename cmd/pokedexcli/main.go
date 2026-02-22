@@ -3,6 +3,10 @@
 // through an interactive REPL.
 package main
 
+import (
+	"github.com/962554/pokedexcli/internal/repl"
+)
+
 func main() {
-	runRepl()
+	repl.RunRepl()
 }
