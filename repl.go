@@ -10,7 +10,7 @@ import (
 const (
 	prompt         = "Pokedex > "
 	unknownWarning = "Unknown command"
-	exploreWarning = "Explore command needs an area."
+	argWarning     = "This command (%s) needs an arg.\n"
 )
 
 func cleanInput(text string) []string {
@@ -39,15 +39,15 @@ func runRepl() {
 			fmt.Println(unknownWarning)
 			continue
 		}
-		var area string
-		if word == "explore" {
+		var arg string
+		if word == "explore" || word == "catch" {
 			if len(cleaned) < 2 {
-				fmt.Println(exploreWarning)
+				fmt.Printf(argWarning, word)
 				continue
 			}
-			area = cleaned[1]
+			arg = cleaned[1]
 		}
-		err := command.callback(cfg, area)
+		err := command.callback(cfg, arg)
 		if err != nil {
 			fmt.Printf("Error running command: %s\n", word)
 		}

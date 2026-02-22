@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
 	"os"
 
 	"github.com/962554/pokedexcli/internal/pokeapi"
@@ -23,6 +24,8 @@ type Config struct {
 var cfg = &Config{
 	next: &pokeapi.MapEndpoint,
 }
+
+var pokedex = map[string]pokeapi.Pokemon{}
 
 type cliCommand struct {
 	name        string
@@ -116,10 +119,39 @@ func exploreCommand(c *Config, area string) error {
 	return nil
 }
 
+func catchCommand(c *Config, pokemon string) error {
+	_ = c
+	const (
+		commandMessage = "Throwing a Pokeball at %s...\n"
+		caughtMessage  = "%s was caught!\n"
+		escapedMessage = "%s escaped!\n"
+	)
+	resource, err := pokeapi.GetPokemon(pokemon)
+	if err != nil {
+		return err
 	}
 
-	}
+	fmt.Printf("baseExperience: %d\n", resource.BaseExperience)
 
+	count := 5
+	difficulty := resource.BaseExperience / 10
+	base := rand.Intn(difficulty)
+	for range count {
+		fmt.Printf(commandMessage, pokemon)
+		try := rand.Intn(difficulty)
+		if try != base {
+			fmt.Printf(escapedMessage, pokemon)
+		} else {
+			break
+		}
+	}
+	fmt.Printf(caughtMessage, pokemon)
+	pokedex[pokemon] = resource
+	return nil
+}
+
+func createCommands() map[string]cliCommand {
+	commands := map[string]cliCommand{}
 
 	// register commands
 	commands["exit"] = newCliCommand("exit", "Exit the Pokedex", exitCommand)
