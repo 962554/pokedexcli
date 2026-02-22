@@ -21,9 +21,9 @@ var (
 	cache       = pokecache.NewCache(interval)
 )
 
-// NamedAPIResource represents a paginated response from the PokeAPI,
+// LocationAreas represents a paginated response from the PokeAPI,
 // containing metadata about the total count and links to adjacent pages.
-type NamedAPIResource struct {
+type LocationAreas struct {
 	// Count is the total number of resources available for this request.
 	Count int `json:"count"`
 	// Next is the URL for the next page of results, if any.
@@ -38,28 +38,28 @@ type NamedAPIResource struct {
 }
 
 // GetLocationAreas returns all location-areas from PokeAPI
-func GetLocationAreas(url string) (NamedAPIResource, error) {
+func GetLocationAreas(url string) (LocationAreas, error) {
 	var data []byte
 	data, ok := cache.Get(url)
 	if !ok {
 		res, err := http.Get(url)
 		if err != nil {
-			return NamedAPIResource{}, fmt.Errorf("http.Get failed: %w", err)
+			return LocationAreas{}, fmt.Errorf("http.Get failed: %w", err)
 		}
 
 		defer res.Body.Close()
 
 		data, err = io.ReadAll(res.Body)
 		if err != nil {
-			return NamedAPIResource{}, fmt.Errorf("ioutil.ReadAll failed: %w", err)
+			return LocationAreas{}, fmt.Errorf("ioutil.ReadAll failed: %w", err)
 		}
 		cache.Add(url, data)
 	}
 
-	var resource NamedAPIResource
+	var resource LocationAreas
 
 	if err := json.Unmarshal(data, &resource); err != nil {
-		return NamedAPIResource{}, fmt.Errorf("json.Unmarshal failed: %w", err)
+		return LocationAreas{}, fmt.Errorf("json.Unmarshal failed: %w", err)
 	}
 
 	return resource, nil
