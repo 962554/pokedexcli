@@ -85,6 +85,20 @@ func mapbCommand(c *Config) error {
 	return nil
 }
 
+func exploreCommand(c *Config, area string) error {
+	_ = c
+	resource, err := pokeapi.GetLocation(area)
+	if err != nil {
+		return err
+	}
+	fmt.Printf("Exploring %s...\n", area)
+	fmt.Println("Found Pokemon: ")
+	for _, result := range resource.PokemonEncounters {
+		fmt.Printf(" - %s\n", result.Pokemon.Name)
+	}
+	return nil
+}
+
 func createCommands() map[string]cliCommand {
 	commands := map[string]cliCommand{}
 
@@ -114,6 +128,13 @@ func createCommands() map[string]cliCommand {
 		name:        "mapb",
 		description: "Displays previous 20 location-areas",
 		callback:    mapbCommand,
+	}
+
+	// register mapb command
+	commands["explore"] = cliCommand{
+		name:        "explore",
+		description: "Displays a list of all Pokemon within an area.",
+		callback:    exploreCommand,
 	}
 	return commands
 }

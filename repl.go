@@ -12,7 +12,8 @@ const (
 	welcomeMessage = "Welcome to Pokedex!"
 	usageMessage   = "Usage:"
 	exitMessage    = "Closing the Pokedex... Goodbye!"
-	unknownMessage = "Unknown command"
+	unknownWarning = "Unknown command"
+	exploreWarning = "Explore command needs an area."
 )
 
 func cleanInput(text string) []string {
@@ -38,12 +39,20 @@ func runRepl() {
 		commands := createCommands()
 		command, ok := commands[word]
 		if !ok {
-			fmt.Println(unknownMessage)
+			fmt.Println(unknownWarning)
 			continue
 		}
-		err := command.callback(cfg)
+		var area string
+		if word == "explore" {
+			if len(cleaned) < 2 {
+				fmt.Println(exploreWarning)
+				continue
+			}
+			area = cleaned[1]
+		}
+		err := command.callback(cfg, area)
 		if err != nil {
-			fmt.Printf("Error running command: %s", word)
+			fmt.Printf("Error running command: %s\n", word)
 		}
 	}
 }
