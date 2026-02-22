@@ -17,8 +17,9 @@ const interval = 60 * time.Second
 
 // MapEndpoint is the default URL for the location-area resource.
 var (
-	MapEndpoint = "https://pokeapi.co/api/v2/location-area/"
-	cache       = pokecache.NewCache(interval)
+	MapEndpoint     = "https://pokeapi.co/api/v2/location-area/"
+	PokemonEndpoint = "https://pokeapi.co/api/v2/pokemon/"
+	cache           = pokecache.NewCache(interval)
 )
 
 // LocationAreas represents a paginated response from the PokeAPI,
