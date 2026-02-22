@@ -177,6 +177,24 @@ func inspectCommand(c *Config, pokemon string) error {
 	return nil
 }
 
+func pokedexCommand(c *Config, arg string) error {
+	_, _ = c, arg
+	const (
+		noPokemon      = "you don't have an Pokemon"
+		pokedexHeading = "Your Pokedex:"
+	)
+	if len(pokedex) == 0 {
+		fmt.Println(noPokemon)
+		return errors.New(noPokemon)
+	}
+	fmt.Println()
+	fmt.Println(pokedexHeading)
+	for pokemon := range pokedex {
+		fmt.Printf(" - %s\n", pokemon)
+	}
+	return nil
+}
+
 func createCommands() map[string]cliCommand {
 	commands := map[string]cliCommand{}
 
@@ -188,6 +206,7 @@ func createCommands() map[string]cliCommand {
 	commands["explore"] = newCliCommand("explore", "Displays a list of all Pokemon within an area.", exploreCommand)
 	commands["catch"] = newCliCommand("catch", "Catches a Pokemon and adds it to the Pokedex", catchCommand)
 	commands["inspect"] = newCliCommand("inspect", "Prints the stats of a Pokemon in the Pokedex", inspectCommand)
+	commands["pokedex"] = newCliCommand("pokedex", "Prints the names of all Pokemon in the Pokedex", pokedexCommand)
 
 	return commands
 }
