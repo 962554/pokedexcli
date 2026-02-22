@@ -21,22 +21,23 @@ var cfg = &Config{
 type cliCommand struct {
 	name        string
 	description string
-	callback    func(c *Config) error
+	callback    func(*Config, string) error
 }
 
 func (c cliCommand) String() string {
 	return fmt.Sprintf("name: %s, description: %s", c.name, c.description)
 }
 
-func exitCommand(c *Config) error {
-	_ = c
+func exitCommand(c *Config, area string) error {
+	_, _ = c, area
+
 	defer os.Exit(0)
 	fmt.Println(exitMessage)
 	return nil
 }
 
-func usageCommand(c *Config) error {
-	_ = c
+func usageCommand(c *Config, area string) error {
+	_, _ = c, area
 	fmt.Println(welcomeMessage)
 	fmt.Println(usageMessage)
 	fmt.Println()
@@ -47,7 +48,8 @@ func usageCommand(c *Config) error {
 	return nil
 }
 
-func mapCommand(c *Config) error {
+func mapCommand(c *Config, area string) error {
+	_ = area
 	if c.next == nil {
 		fmt.Println("you're on the last page")
 		return nil
@@ -66,7 +68,8 @@ func mapCommand(c *Config) error {
 	return nil
 }
 
-func mapbCommand(c *Config) error {
+func mapbCommand(c *Config, area string) error {
+	_ = area
 	if c.previous == nil {
 		fmt.Println("you're on the first page")
 		c.next = &pokeapi.MapEndpoint
