@@ -40,7 +40,8 @@ func runRepl() {
 			continue
 		}
 		var arg string
-		if word == "explore" || word == "catch" {
+		argCommands := "explore catch inspect"
+		if strings.Contains(argCommands, word) {
 			if len(cleaned) < 2 {
 				fmt.Printf(argWarning, word)
 				continue

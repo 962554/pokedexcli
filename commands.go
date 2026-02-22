@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"math/rand"
 	"os"
@@ -150,6 +151,32 @@ func catchCommand(c *Config, pokemon string) error {
 	return nil
 }
 
+func inspectCommand(c *Config, pokemon string) error {
+	_ = c
+	const (
+		missingPokemon = "you have not caught that pokemon"
+	)
+
+	p, inPokedex := pokedex[pokemon]
+	if !inPokedex {
+		fmt.Println(missingPokemon)
+		return errors.New(missingPokemon)
+	}
+	fmt.Println()
+	fmt.Println("Name:", p.Name)
+	fmt.Println("Height:", p.Height)
+	fmt.Println("Weight:", p.Weight)
+	fmt.Println("Stats:")
+	for _, stat := range p.Stats {
+		fmt.Printf("  -%s: %d\n", stat.Stat.Name, stat.BaseStat)
+	}
+	fmt.Println("Types:")
+	for _, typ := range p.Types {
+		fmt.Printf("  - %s\n", typ.Type.Name)
+	}
+	return nil
+}
+
 func createCommands() map[string]cliCommand {
 	commands := map[string]cliCommand{}
 
@@ -160,6 +187,7 @@ func createCommands() map[string]cliCommand {
 	commands["mapb"] = newCliCommand("mapb", "Displays previous 20 location-areas", mapbCommand)
 	commands["explore"] = newCliCommand("explore", "Displays a list of all Pokemon within an area.", exploreCommand)
 	commands["catch"] = newCliCommand("catch", "Catches a Pokemon and adds it to the Pokedex", catchCommand)
+	commands["inspect"] = newCliCommand("inspect", "Prints the stats of a Pokemon in the Pokedex", inspectCommand)
 
 	return commands
 }
