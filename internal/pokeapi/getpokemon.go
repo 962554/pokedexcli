@@ -21,7 +21,7 @@ type Pokemon struct {
 	// BaseExperience is the base experience gained for defeating this Pokemon.
 	BaseExperience int `json:"base_experience"`
 	// Cries contains the URLs for the latest and legacy cries of this Pokemon.
-	Cries          struct {
+	Cries struct {
 		Latest string `json:"latest"`
 		Legacy string `json:"legacy"`
 	} `json:"cries"`
@@ -39,7 +39,7 @@ type Pokemon struct {
 		} `json:"version"`
 	} `json:"game_indices"`
 	// Height is the height of this Pokemon in decimetres.
-	Height    int `json:"height"`
+	Height int `json:"height"`
 	// HeldItems is a list of items this Pokemon may be holding when encountered.
 	HeldItems []struct {
 		Item struct {
@@ -55,13 +55,13 @@ type Pokemon struct {
 		} `json:"version_details"`
 	} `json:"held_items"`
 	// ID is the identifier for this Pokemon resource.
-	ID                     int    `json:"id"`
+	ID int `json:"id"`
 	// IsDefault is true for the default form of this Pokemon.
-	IsDefault              bool   `json:"is_default"`
+	IsDefault bool `json:"is_default"`
 	// LocationAreaEncounters is the URL for the location area encounters for this Pokemon.
 	LocationAreaEncounters string `json:"location_area_encounters"`
 	// Moves is a list of moves that can be learned by this Pokemon.
-	Moves                  []struct {
+	Moves []struct {
 		Move struct {
 			Name string `json:"name"`
 			URL  string `json:"url"`
@@ -80,9 +80,9 @@ type Pokemon struct {
 		} `json:"version_group_details"`
 	} `json:"moves"`
 	// Name is the name of this Pokemon.
-	Name          string `json:"name"`
+	Name string `json:"name"`
 	// Order is the order for sorting. Almost national order, except families and forms are together.
-	Order         int    `json:"order"`
+	Order int `json:"order"`
 	// PastAbilities is a list of abilities this Pokemon has had in previous generations.
 	PastAbilities []struct {
 		Abilities []struct {
