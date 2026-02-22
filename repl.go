@@ -9,9 +9,6 @@ import (
 
 const (
 	prompt         = "Pokedex > "
-	welcomeMessage = "Welcome to Pokedex!"
-	usageMessage   = "Usage:"
-	exitMessage    = "Closing the Pokedex... Goodbye!"
 	unknownWarning = "Unknown command"
 	exploreWarning = "Explore command needs an area."
 )
