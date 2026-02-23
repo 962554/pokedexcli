@@ -1,13 +1,18 @@
-package pokecache
+package pokecache_test
 
 import (
 	"fmt"
 	"testing"
 	"time"
+
+	"github.com/962554/pokedexcli/internal/pokecache"
 )
 
 func TestAddGet(t *testing.T) {
+	t.Parallel()
+
 	const interval = 5 * time.Second
+
 	cases := []struct {
 		key string
 		val []byte
@@ -21,18 +26,23 @@ func TestAddGet(t *testing.T) {
 			val: []byte("moretestdata"),
 		},
 	}
+	for i, tcase := range cases {
+		t.Run(fmt.Sprintf("Test tcase %v", i), func(t *testing.T) {
+			t.Parallel()
 
-	for i, c := range cases {
-		t.Run(fmt.Sprintf("Test case %v", i), func(t *testing.T) {
-			cache := NewCache(interval)
-			cache.Add(c.key, c.val)
-			val, ok := cache.Get(c.key)
+			cache := pokecache.NewCache(interval)
+			cache.Add(tcase.key, tcase.val)
+			val, ok := cache.Get(tcase.key)
+
 			if !ok {
 				t.Errorf("expected to find key")
+
 				return
 			}
-			if string(val) != string(c.val) {
+
+			if string(val) != string(tcase.val) {
 				t.Errorf("expected to find value")
+
 				return
 			}
 		})
@@ -40,22 +50,29 @@ func TestAddGet(t *testing.T) {
 }
 
 func TestReapLoop(t *testing.T) {
-	const baseTime = 5 * time.Millisecond
-	const waitTime = baseTime + 5*time.Millisecond
-	cache := NewCache(baseTime)
+	t.Parallel()
+
+	const (
+		baseTime = 5 * time.Millisecond
+		waitTime = baseTime + 5*time.Millisecond
+	)
+
+	cache := pokecache.NewCache(baseTime)
 	cache.Add("https://example.com", []byte("testdata"))
 
-	_, ok := cache.Get("https://example.com")
-	if !ok {
+	_, hit := cache.Get("https://example.com")
+	if !hit {
 		t.Errorf("expected to find key")
+
 		return
 	}
 
 	time.Sleep(waitTime)
 
-	_, ok = cache.Get("https://example.com")
-	if ok {
+	_, hit = cache.Get("https://example.com")
+	if hit {
 		t.Errorf("expected to not find key")
+
 		return
 	}
 }

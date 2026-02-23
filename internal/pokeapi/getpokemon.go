@@ -8,7 +8,7 @@ import (
 )
 
 // Pokemon represents detailed information about a specific Pokemon from the PokeAPI.
-type Pokemon struct {
+type Pokemon struct { //noline:tagliatelle
 	// Abilities is a list of abilities this Pokemon could potentially have.
 	Abilities []struct {
 		Ability struct {
@@ -153,7 +153,7 @@ type Pokemon struct {
 			OfficialArtwork struct {
 				FrontDefault string `json:"front_default"`
 				FrontShiny   string `json:"front_shiny"`
-			} `json:"official-artwork"`
+			} `json:"official-artwork"` //nolint:tagliatelle
 			Showdown struct {
 				BackDefault      string `json:"back_default"`
 				BackFemale       any    `json:"back_female"`
@@ -174,7 +174,7 @@ type Pokemon struct {
 					FrontDefault     string `json:"front_default"`
 					FrontGray        string `json:"front_gray"`
 					FrontTransparent string `json:"front_transparent"`
-				} `json:"red-blue"`
+				} `json:"red-blue"` //nolint:tagliatelle
 				Yellow struct {
 					BackDefault      string `json:"back_default"`
 					BackGray         string `json:"back_gray"`
@@ -183,7 +183,7 @@ type Pokemon struct {
 					FrontGray        string `json:"front_gray"`
 					FrontTransparent string `json:"front_transparent"`
 				} `json:"yellow"`
-			} `json:"generation-i"`
+			} `json:"generation-i"` //nolint:tagliatelle
 			GenerationIi struct {
 				Crystal struct {
 					BackDefault           string `json:"back_default"`
@@ -209,7 +209,7 @@ type Pokemon struct {
 					FrontShiny       string `json:"front_shiny"`
 					FrontTransparent string `json:"front_transparent"`
 				} `json:"silver"`
-			} `json:"generation-ii"`
+			} `json:"generation-ii"` //nolint:tagliatelle
 			GenerationIii struct {
 				Emerald struct {
 					FrontDefault string `json:"front_default"`
@@ -220,14 +220,14 @@ type Pokemon struct {
 					BackShiny    string `json:"back_shiny"`
 					FrontDefault string `json:"front_default"`
 					FrontShiny   string `json:"front_shiny"`
-				} `json:"firered-leafgreen"`
+				} `json:"firered-leafgreen"` //nolint:tagliatelle
 				RubySapphire struct {
 					BackDefault  string `json:"back_default"`
 					BackShiny    string `json:"back_shiny"`
 					FrontDefault string `json:"front_default"`
 					FrontShiny   string `json:"front_shiny"`
-				} `json:"ruby-sapphire"`
-			} `json:"generation-iii"`
+				} `json:"ruby-sapphire"` //nolint:tagliatelle
+			} `json:"generation-iii"` //nolint:tagliatelle
 			GenerationIv struct {
 				DiamondPearl struct {
 					BackDefault      string `json:"back_default"`
@@ -238,7 +238,7 @@ type Pokemon struct {
 					FrontFemale      any    `json:"front_female"`
 					FrontShiny       string `json:"front_shiny"`
 					FrontShinyFemale any    `json:"front_shiny_female"`
-				} `json:"diamond-pearl"`
+				} `json:"diamond-pearl"` //nolint:tagliatelle
 				HeartgoldSoulsilver struct {
 					BackDefault      string `json:"back_default"`
 					BackFemale       any    `json:"back_female"`
@@ -248,7 +248,7 @@ type Pokemon struct {
 					FrontFemale      any    `json:"front_female"`
 					FrontShiny       string `json:"front_shiny"`
 					FrontShinyFemale any    `json:"front_shiny_female"`
-				} `json:"heartgold-soulsilver"`
+				} `json:"heartgold-soulsilver"` //nolint:tagliatelle
 				Platinum struct {
 					BackDefault      string `json:"back_default"`
 					BackFemale       any    `json:"back_female"`
@@ -259,13 +259,13 @@ type Pokemon struct {
 					FrontShiny       string `json:"front_shiny"`
 					FrontShinyFemale any    `json:"front_shiny_female"`
 				} `json:"platinum"`
-			} `json:"generation-iv"`
+			} `json:"generation-iv"` //nolint:tagliatelle
 			GenerationIx struct {
 				ScarletViolet struct {
 					FrontDefault string `json:"front_default"`
 					FrontFemale  any    `json:"front_female"`
-				} `json:"scarlet-violet"`
-			} `json:"generation-ix"`
+				} `json:"scarlet-violet"` //nolint:tagliatelle
+			} `json:"generation-ix"` //nolint:tagliatelle
 			GenerationV struct {
 				BlackWhite struct {
 					Animated struct {
@@ -286,22 +286,22 @@ type Pokemon struct {
 					FrontFemale      any    `json:"front_female"`
 					FrontShiny       string `json:"front_shiny"`
 					FrontShinyFemale any    `json:"front_shiny_female"`
-				} `json:"black-white"`
-			} `json:"generation-v"`
+				} `json:"black-white"` //nolint:tagliatelle
+			} `json:"generation-v"` //nolint:tagliatelle
 			GenerationVi struct {
 				OmegarubyAlphasapphire struct {
 					FrontDefault     string `json:"front_default"`
 					FrontFemale      any    `json:"front_female"`
 					FrontShiny       string `json:"front_shiny"`
 					FrontShinyFemale any    `json:"front_shiny_female"`
-				} `json:"omegaruby-alphasapphire"`
+				} `json:"omegaruby-alphasapphire"` //nolint:tagliatelle
 				XY struct {
 					FrontDefault     string `json:"front_default"`
 					FrontFemale      any    `json:"front_female"`
 					FrontShiny       string `json:"front_shiny"`
 					FrontShinyFemale any    `json:"front_shiny_female"`
-				} `json:"x-y"`
-			} `json:"generation-vi"`
+				} `json:"x-y"` //nolint:tagliatelle
+			} `json:"generation-vi"` //nolint:tagliatelle
 			GenerationVii struct {
 				Icons struct {
 					FrontDefault string `json:"front_default"`
@@ -312,18 +312,18 @@ type Pokemon struct {
 					FrontFemale      any    `json:"front_female"`
 					FrontShiny       string `json:"front_shiny"`
 					FrontShinyFemale any    `json:"front_shiny_female"`
-				} `json:"ultra-sun-ultra-moon"`
-			} `json:"generation-vii"`
+				} `json:"ultra-sun-ultra-moon"` //nolint:tagliatelle
+			} `json:"generation-vii"` //nolint:tagliatelle
 			GenerationViii struct {
 				BrilliantDiamondShiningPearl struct {
 					FrontDefault string `json:"front_default"`
 					FrontFemale  any    `json:"front_female"`
-				} `json:"brilliant-diamond-shining-pearl"`
+				} `json:"brilliant-diamond-shining-pearl"` //nolint:tagliatelle
 				Icons struct {
 					FrontDefault string `json:"front_default"`
 					FrontFemale  any    `json:"front_female"`
 				} `json:"icons"`
-			} `json:"generation-viii"`
+			} `json:"generation-viii"` //nolint:tagliatelle
 		} `json:"versions"`
 	} `json:"sprites"`
 	// Stats is a list of base stats for this Pokemon.
@@ -370,8 +370,9 @@ func GetPokemon(pokemon string) (Pokemon, error) {
 
 	var resource Pokemon
 
-	if err := json.Unmarshal(data, &resource); err != nil {
-		return Pokemon{}, fmt.Errorf("json.Unmarshal failed: %w", err)
+	err := json.Unmarshal(data, &resource)
+	if err != nil {
+		return Pokemon{}, fmt.Errorf("json.Unmarshal failed: %v", err)
 	}
 
 	return resource, nil

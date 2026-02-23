@@ -1,10 +1,14 @@
-package repl
+package repl_test
 
 import (
 	"testing"
+
+	"github.com/962554/pokedexcli/internal/repl"
 )
 
 func TestCleanInput(t *testing.T) {
+	t.Parallel()
+
 	testCases := []struct {
 		name     string
 		input    string
@@ -32,17 +36,19 @@ func TestCleanInput(t *testing.T) {
 		},
 	}
 
-	for _, tc := range testCases {
-		t.Run(tc.name, func(t *testing.T) {
-			got := cleanInput(tc.input)
-			if len(got) != len(tc.expected) {
-				t.Errorf("slice lengths don't match: expected: %d, got: %d", len(tc.expected), len(got))
+	for _, tcase := range testCases {
+		t.Run(tcase.name, func(t *testing.T) {
+			t.Parallel()
+
+			got := repl.CleanInput(tcase.input)
+			if len(got) != len(tcase.expected) {
+				t.Errorf("slice lengths don't match: expected: %d, got: %d", len(tcase.expected), len(got))
 			}
 			for i := range got {
 				word := got[i]
-				expectedWord := tc.expected[i]
+				expectedWord := tcase.expected[i]
 				if expectedWord != word {
-					t.Errorf("input: %q, expected: %s, got: %s", tc.input, expectedWord, word)
+					t.Errorf("input: %q, expected: %s, got: %s", tcase.input, expectedWord, word)
 				}
 			}
 		})

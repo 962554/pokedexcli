@@ -3,7 +3,7 @@
 package pokecache
 
 import (
-	"fmt"
+	"log"
 	"sync"
 	"time"
 )
@@ -35,7 +35,7 @@ func NewCache(interval time.Duration) *Cache {
 
 // Add inserts a new byte slice into the cache with the current timestamp.
 func (c *Cache) Add(key string, val []byte) {
-	fmt.Println("pokecache.Add", key)
+	log.Println("pokecache.Add", key)
 	c.mu.Lock()
 	defer c.mu.Unlock()
 
@@ -48,18 +48,19 @@ func (c *Cache) Add(key string, val []byte) {
 // Get retrieves a byte slice from the cache. It returns the data and
 // a boolean indicating if the key was found.
 func (c *Cache) Get(key string) ([]byte, bool) {
-	fmt.Println("pokecache.Get", key)
+	log.Println("pokecache.Get", key)
 	c.mu.Lock()
 	defer c.mu.Unlock()
 
 	if entry, ok := c.cache[key]; ok {
 		return entry.val, ok
 	}
+
 	return nil, false
 }
 
 func (c *Cache) reapLoop() {
-	fmt.Println("pokecache.reapLoop")
+	log.Println("pokecache.reapLoop")
 	c.mu.Lock()
 	defer c.mu.Unlock()
 

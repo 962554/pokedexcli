@@ -16,6 +16,7 @@ import (
 const interval = 60 * time.Second
 
 // MapEndpoint is the default URL for the location-area resource.
+// PokemonEndpoint is the URL for the pokemon resource.
 var (
 	MapEndpoint     = "https://pokeapi.co/api/v2/location-area/"
 	PokemonEndpoint = "https://pokeapi.co/api/v2/pokemon/"
@@ -38,7 +39,7 @@ type LocationAreas struct {
 	} `json:"results"`
 }
 
-// GetLocationAreas returns all location-areas from PokeAPI
+// GetLocationAreas returns all location-areas from PokeAPI.
 func GetLocationAreas(url string) (LocationAreas, error) {
 	var data []byte
 	data, ok := cache.Get(url)
@@ -59,7 +60,8 @@ func GetLocationAreas(url string) (LocationAreas, error) {
 
 	var resource LocationAreas
 
-	if err := json.Unmarshal(data, &resource); err != nil {
+	err := json.Unmarshal(data, &resource)
+	if err != nil {
 		return LocationAreas{}, fmt.Errorf("json.Unmarshal failed: %w", err)
 	}
 

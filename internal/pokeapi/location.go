@@ -93,7 +93,8 @@ func GetLocation(area string) (Location, error) {
 
 	var resource Location
 
-	if err := json.Unmarshal(data, &resource); err != nil {
+	err := json.Unmarshal(data, &resource)
+	if err != nil {
 		return Location{}, fmt.Errorf("json.Unmarshal failed: %w", err)
 	}
 
