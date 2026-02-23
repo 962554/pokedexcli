@@ -42,6 +42,7 @@ type LocationAreas struct {
 // GetLocationAreas returns all location-areas from PokeAPI.
 func GetLocationAreas(url string) (LocationAreas, error) {
 	var data []byte
+
 	data, ok := cache.Get(url)
 	if !ok {
 		res, err := http.Get(url)
@@ -55,6 +56,7 @@ func GetLocationAreas(url string) (LocationAreas, error) {
 		if err != nil {
 			return LocationAreas{}, fmt.Errorf("ioutil.ReadAll failed: %w", err)
 		}
+
 		cache.Add(url, data)
 	}
 

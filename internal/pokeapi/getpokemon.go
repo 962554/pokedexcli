@@ -351,7 +351,9 @@ type Pokemon struct { //noline:tagliatelle
 // It first checks the cache, and if not found, it makes an HTTP GET request to the PokeAPI.
 func GetPokemon(pokemon string) (Pokemon, error) {
 	url := PokemonEndpoint + pokemon
+
 	var data []byte
+
 	data, ok := cache.Get(url)
 	if !ok {
 		res, err := http.Get(url)
@@ -365,6 +367,7 @@ func GetPokemon(pokemon string) (Pokemon, error) {
 		if err != nil {
 			return Pokemon{}, fmt.Errorf("ioutil.ReadAll failed: %w", err)
 		}
+
 		cache.Add(url, data)
 	}
 

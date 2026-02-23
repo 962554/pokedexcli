@@ -51,6 +51,7 @@ func exitCommand(cfg *Config, arg string) error {
 	_, _ = cfg, arg
 
 	defer os.Exit(0)
+
 	log.Println(exitMessage)
 
 	return nil
@@ -58,6 +59,7 @@ func exitCommand(cfg *Config, arg string) error {
 
 func usageCommand(cfg *Config, arg string) error {
 	_, _ = cfg, arg
+
 	log.Println(welcomeMessage)
 	log.Println(usageMessage)
 	log.Println()
@@ -71,6 +73,7 @@ func usageCommand(cfg *Config, arg string) error {
 
 func mapCommand(cfg *Config, arg string) error {
 	_ = arg
+
 	if cfg.next == nil {
 		log.Println("you're on the last page")
 
@@ -81,6 +84,7 @@ func mapCommand(cfg *Config, arg string) error {
 	if err != nil {
 		return fmt.Errorf("mapCommand: GetLocationArea failed: %w", err)
 	}
+
 	cfg.next = resource.Next
 	cfg.previous = resource.Previous
 
@@ -93,16 +97,20 @@ func mapCommand(cfg *Config, arg string) error {
 
 func mapbCommand(cfg *Config, arg string) error {
 	_ = arg
+
 	if cfg.previous == nil {
 		log.Println("you're on the first page")
+
 		cfg.next = &pokeapi.MapEndpoint
 
 		return nil
 	}
+
 	resource, err := pokeapi.GetLocationAreas(*cfg.previous)
 	if err != nil {
 		return fmt.Errorf("mapbCommand: GetLocationAreas failed: %v", err)
 	}
+
 	cfg.next = resource.Next
 	cfg.previous = resource.Previous
 
@@ -115,12 +123,15 @@ func mapbCommand(cfg *Config, arg string) error {
 
 func exploreCommand(cfg *Config, area string) error {
 	_ = cfg
+
 	resource, err := pokeapi.GetLocation(area)
 	if err != nil {
 		return fmt.Errorf("exploreCommand: GetLocation failed: %v", err)
 	}
+
 	log.Printf("Exploring %s...\n", area)
 	log.Println("Found Pokemon: ")
+
 	for _, result := range resource.PokemonEncounters {
 		log.Printf(" - %s\n", result.Pokemon.Name)
 	}
@@ -130,11 +141,13 @@ func exploreCommand(cfg *Config, area string) error {
 
 func catchCommand(cfg *Config, pokemon string) error {
 	_ = cfg
+
 	const (
 		commandMessage = "Throwing a Pokeball at %s...\n"
 		caughtMessage  = "%s was caught!\n"
 		escapedMessage = "%s escaped!\n"
 	)
+
 	resource, err := pokeapi.GetPokemon(pokemon)
 	if err != nil {
 		return fmt.Errorf("catchCommand: GetPokemon failed: %v", err)
@@ -145,8 +158,10 @@ func catchCommand(cfg *Config, pokemon string) error {
 	count := 5
 	difficulty := resource.BaseExperience / 10
 	base := rand.Intn(difficulty)
+
 	for range count {
 		log.Printf(commandMessage, pokemon)
+
 		try := rand.Intn(difficulty)
 		if try != base {
 			log.Printf(escapedMessage, pokemon)
@@ -154,6 +169,7 @@ func catchCommand(cfg *Config, pokemon string) error {
 			break
 		}
 	}
+
 	log.Printf(caughtMessage, pokemon)
 	pokedex[pokemon] = resource
 
@@ -162,6 +178,7 @@ func catchCommand(cfg *Config, pokemon string) error {
 
 func inspectCommand(cfg *Config, pokemon string) error {
 	_ = cfg
+
 	const (
 		missingPokemon = "you have not caught that pokemon"
 	)
@@ -171,15 +188,19 @@ func inspectCommand(cfg *Config, pokemon string) error {
 		log.Println(missingPokemon)
 		return errors.New(missingPokemon)
 	}
+
 	log.Println()
 	log.Println("Name:", pokemo.Name)
 	log.Println("Height:", pokemo.Height)
 	log.Println("Weight:", pokemo.Weight)
 	log.Println("Stats:")
+
 	for _, stat := range pokemo.Stats {
 		log.Printf("  -%s: %d\n", stat.Stat.Name, stat.BaseStat)
 	}
+
 	log.Println("Types:")
+
 	for _, typ := range pokemo.Types {
 		log.Printf("  - %s\n", typ.Type.Name)
 	}
@@ -189,6 +210,7 @@ func inspectCommand(cfg *Config, pokemon string) error {
 
 func pokedexCommand(cfg *Config, arg string) error {
 	_, _ = cfg, arg
+
 	const (
 		noPokemon      = "you don't have an Pokemon"
 		pokedexHeading = "Your Pokedex:"
@@ -197,11 +219,14 @@ func pokedexCommand(cfg *Config, arg string) error {
 		log.Println(noPokemon)
 		return errors.New(noPokemon)
 	}
+
 	log.Println()
 	log.Println(pokedexHeading)
+
 	for pokemon := range pokedex {
 		log.Printf(" - %s\n", pokemon)
 	}
+
 	return nil
 }
 

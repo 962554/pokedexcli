@@ -74,7 +74,9 @@ type Location struct {
 // GetLocation returns the set of possible Pokémon encounters for an area.
 func GetLocation(area string) (Location, error) {
 	url := MapEndpoint + area
+
 	var data []byte
+
 	data, ok := cache.Get(url)
 	if !ok {
 		res, err := http.Get(url)
@@ -88,6 +90,7 @@ func GetLocation(area string) (Location, error) {
 		if err != nil {
 			return Location{}, fmt.Errorf("ioutil.ReadAll failed: %w", err)
 		}
+
 		cache.Add(url, data)
 	}
 

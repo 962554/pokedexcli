@@ -44,8 +44,10 @@ func TestCleanInput(t *testing.T) {
 			if len(got) != len(tcase.expected) {
 				t.Errorf("slice lengths don't match: expected: %d, got: %d", len(tcase.expected), len(got))
 			}
+
 			for i := range got {
 				word := got[i]
+
 				expectedWord := tcase.expected[i]
 				if expectedWord != word {
 					t.Errorf("input: %q, expected: %s, got: %s", tcase.input, expectedWord, word)

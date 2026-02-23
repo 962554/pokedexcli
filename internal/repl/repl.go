@@ -27,30 +27,38 @@ func RunRepl() {
 
 	for {
 		log.Print(prompt)
+
 		scanned := scanner.Scan()
 		if !scanned {
 			return
 		}
+
 		err := scanner.Err()
 		if err != nil {
 			log.Println("reading input:", err)
 
 			return
 		}
+
 		userInput := scanner.Text()
+
 		cleaned := CleanInput(userInput)
 		if len(cleaned) == 0 {
 			continue
 		}
+
 		word := cleaned[0]
 		commands := createCommands()
+
 		command, exists := commands[word]
 		if !exists {
 			log.Println(unknownWarning)
 
 			continue
 		}
+
 		var arg string
+
 		argCommands := "explore catch inspect"
 		if strings.Contains(argCommands, word) {
 			if len(cleaned) < 2 {
@@ -58,8 +66,10 @@ func RunRepl() {
 
 				continue
 			}
+
 			arg = cleaned[1]
 		}
+
 		err = command.callback(cfg, arg)
 		if err != nil {
 			log.Printf("Error running command: %s\n", word)
