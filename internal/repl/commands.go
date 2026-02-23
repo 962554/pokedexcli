@@ -108,7 +108,7 @@ func mapbCommand(cfg *Config, arg string) error {
 
 	resource, err := pokeapi.GetLocationAreas(*cfg.previous)
 	if err != nil {
-		return fmt.Errorf("mapbCommand: GetLocationAreas failed: %v", err)
+		return fmt.Errorf("mapbCommand: GetLocationAreas failed: %w", err)
 	}
 
 	cfg.next = resource.Next
@@ -126,7 +126,7 @@ func exploreCommand(cfg *Config, area string) error {
 
 	resource, err := pokeapi.GetLocation(area)
 	if err != nil {
-		return fmt.Errorf("exploreCommand: GetLocation failed: %v", err)
+		return fmt.Errorf("exploreCommand: GetLocation failed: %w", err)
 	}
 
 	log.Printf("Exploring %s...\n", area)
@@ -150,7 +150,7 @@ func catchCommand(cfg *Config, pokemon string) error {
 
 	resource, err := pokeapi.GetPokemon(pokemon)
 	if err != nil {
-		return fmt.Errorf("catchCommand: GetPokemon failed: %v", err)
+		return fmt.Errorf("catchCommand: GetPokemon failed: %w", err)
 	}
 
 	log.Printf("baseExperience: %d\n", resource.BaseExperience)

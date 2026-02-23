@@ -375,7 +375,7 @@ func GetPokemon(pokemon string) (Pokemon, error) {
 
 	err := json.Unmarshal(data, &resource)
 	if err != nil {
-		return Pokemon{}, fmt.Errorf("json.Unmarshal failed: %v", err)
+		return Pokemon{}, fmt.Errorf("json.Unmarshal failed: %w", err)
 	}
 
 	return resource, nil
