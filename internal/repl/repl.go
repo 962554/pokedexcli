@@ -18,6 +18,7 @@ const (
 // CleanInput processes a raw string into a slice of lowercase words.
 func CleanInput(text string) []string {
 	lcText := strings.ToLower(text)
+
 	return strings.Fields(lcText)
 }
 

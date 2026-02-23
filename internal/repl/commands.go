@@ -186,6 +186,7 @@ func inspectCommand(cfg *Config, pokemon string) error {
 	pokemo, inPokedex := pokedex[pokemon]
 	if !inPokedex {
 		log.Println(missingPokemon)
+
 		return errors.New(missingPokemon)
 	}
 
@@ -217,6 +218,7 @@ func pokedexCommand(cfg *Config, arg string) error {
 	)
 	if len(pokedex) == 0 {
 		log.Println(noPokemon)
+
 		return errors.New(noPokemon)
 	}
 
